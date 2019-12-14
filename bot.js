@@ -15,7 +15,7 @@ const managerid = 189830975;
 /*=========================================================================================*/
 
 vk.setOptions({ 
-token: "ac8ecfe78b20df06764f8859904229ae415f89f74b2e23dcaea2cd721f2bfd67f3ac59f03af4b699ece9b", 
+token: "А ВОТ ИДИ НАХУЙ ТУТ НЕТУ ТОКЕНА", 
 apiMode: "parallel", 
 pollingGroupId: 189830975
 });
