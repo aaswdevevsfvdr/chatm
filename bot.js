@@ -241,6 +241,35 @@ updates.hear(/([^]+) инфо ([^]+)/i, async (context) => {
 
 });
 
+updates.hear(/^(?:гиф|gif)\s(.*)$/i, async (message, bot) => {
+
+	vk.api.call('docs.search', {q: message.$match[1] + '.gif', count: 10}) 
+	.then(response => { 
+		let items = response.items.map(x => `doc${x.owner_id}_${x.id}`).join(','); 
+		return message.send(`по вашему запросу [${message.$match[1]}], я нашлел следующие GIF Материалы:`, {attachment: items}) 
+	}) 
+});
+
+updates.hear(/^(?:clear|очистить чат)/i, (message) => { 
+
+ 	message.send("&#4448;\n".repeat(200) + `😍❤ | Я очистил чат от лишних сообщений! | 😍❤`);
+ 	message.send({sticker_id:11246})
+ });
+
+updates.hear(/^(?:Стикер)\s?([0-9]+)?/i,  message => {
+	if(!message.$match[1]) return message.send(`Укажите ID Стикера`);  
+	message.send({
+		sticker_id: message.$match[1]}).catch((error) => {return message.send(`😢 к сожалению, мой Владелец не купил мне ещё пак в котором будет стикер №${message.$match[1]}`)});
+});
+
+updates.hear(/^(?:qr)\s(.*)/i, async (message) => {
+	const qr = require('qr-image');
+	let qr_svg = qr.image(message.$match[1], { type: 'png' });
+	qr_svg.pipe(require('fs').createWriteStream('qr.png'));
+	var svg_string = qr.imageSync(message.$match[1], { type: 'png' });
+	message.sendPhoto(svg_string)
+});
+
 updates.hear(/([^]+) инфа ([^]+)/i, async (context) => {
     let phrases = rand(['Вероятно, это', 'Это примерно ', 'Вероятность составляет '])
     let b = getRandomInRange(1, 100)
